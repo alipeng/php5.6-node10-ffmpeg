@@ -45,7 +45,7 @@ RUN addgroup -g 1000 node \
     && make install \
     && apk del .build-deps \
     && cd .. \
-    && rm -Rf "node-v$NODE_VERSION" \
+    && rm -Rf "node-v$NODE_VERSION" /var/cache/apk/*\
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
 ENV YARN_VERSION 1.7.0
@@ -66,6 +66,7 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn \
   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
+  && rm -Rf /var/cache/apk/* \
   && apk del .build-deps-yarn
 
 RUN apk add --no-cache ffmpeg
